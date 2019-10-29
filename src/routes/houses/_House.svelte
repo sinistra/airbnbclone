@@ -1,4 +1,5 @@
 <script>
+    export let id;
     export let picture;
     export let type;
     export let town;
@@ -9,9 +10,11 @@
 </script>
 
 <div>
-    <img src="{picture}" width="100%" style="" alt=""/>
-    <p>{type} - {town}</p>
-    <p>{title}</p>
-    <p>{rating} ({reviewsCount}) {superhost ? '- Superhost' : ''}</p>
+    <a href="/houses/{id}">
+        <img src="{picture}" width="100%" style="" alt="" />
+        <p>{type} - {town}</p>
+        <p>{title}</p>
+        <p>{rating} ({reviewsCount}) {superhost ? '- Superhost' : ''}</p>
+    </a>
 </div>
 
