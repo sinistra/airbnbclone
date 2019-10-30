@@ -42,16 +42,7 @@
         padding: 20px;
         margin-top: 20px;
     }
-    button.reserve {
-        background-color: rgb(255, 90, 95);
-        color: white;
-        font-size: 13px;
-        width: 100%;
-        border: none;
-        height: 40px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+
 </style>
 
 <svelte:head>
