@@ -6,6 +6,7 @@ const houses = [
         type: "Entire house",
         town: "Ostuni",
         title: "Beautiful flat in Ostuni!",
+        price: '50.00',
         rating: 4.93,
         reviewsCount: 198,
         superhost: true,
@@ -36,6 +37,7 @@ const houses = [
         type: "Entire house",
         town: "Isla Mujeres",
         title: "The World Famous Seashell House ~ Casa Caracol",
+        price: '70.00',
         rating: 4.77,
         reviewsCount: 246,
         superhost: false
