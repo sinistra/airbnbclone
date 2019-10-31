@@ -14,6 +14,8 @@
 
 <script>
     import DateRangePicker from './_DateRangePicker.svelte'
+    import {showModal, showLoginModal} from '../../store.js'
+
     export let house
     let dateChosen = false
     let startDate = null
@@ -23,7 +25,7 @@
         const start = new Date(startDate) //clone
         const end = new Date(endDate) //clone
         let dayCount = 0
-        while(end > start) {
+        while (end > start) {
             dayCount++
             start.setDate(start.getDate() + 1)
         }
@@ -37,6 +39,7 @@
         grid-template-columns: 60% 40%;
         grid-gap: 30px;
     }
+
     aside {
         border: 1px solid #ccc;
         padding: 20px;
@@ -85,7 +88,7 @@
         <h3>198 Reviews</h3>
 
         {#each house.reviews as review}
-            <img src={review.avatar} alt="" />
+            <img src={review.avatar} alt=""/>
             <p><strong>{review.user}</strong></p>
             <p>{review.date}</p>
             <p>{review.comment}</p>
@@ -99,7 +102,7 @@
         endDate = event.detail.endDate
         numberOfNightsBetweenDates = calcNumberOfNightsBetweenDates(startDate, endDate)
         dateChosen = true
-        }} />
+        }}/>
 
         {#if dateChosen}
             <br>
@@ -107,7 +110,11 @@
             <p>${house.price} x {numberOfNightsBetweenDates}</p>
 
             <p><strong>Total</strong> ${house.price * numberOfNightsBetweenDates}</p>
-            <button class="reserve">Reserve</button>
+            <button class="reserve styled" on:click={() => {
+            showModal.set(true)
+            showLoginModal.set(true)
+            }}>Reserve
+            </button>
         {/if}
     </aside>
 </div>

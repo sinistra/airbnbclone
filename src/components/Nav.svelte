@@ -1,4 +1,5 @@
 <script>
+    import { showModal, showLoginModal, showRegistrationModal } from '../store.js'
     export let segment;
 </script>
 
@@ -68,8 +69,16 @@
     <nav>
         <ul>
             <li><a class='{segment === undefined ? "selected" : ""}' href='become-a-host'>Become a host</a></li>
-            <li><a class='{segment === "register" ? "selected" : ""}' href='register'>Sign up</a></li>
-            <li><a class='{segment === "login" ? "selected" : ""}' href='login'>Log in</a></li>
+            <li><a class='{segment === "register" ? "selected" : ""}' href='javascript:;' on:click={() => {
+            showModal.set(true)
+            showLoginModal.set(false)
+            showRegistrationModal.set(true)
+            }}>Sign up</a></li>
+            <li><a class='{segment === "login" ? "selected" : ""}' href='javascript:;' on:click={() => {
+            showModal.set(true)
+            showLoginModal.set(true)
+            showRegistrationModal.set(false)
+            }}>Log in</a></li>
         </ul>
     </nav>
 </div>
