@@ -12,6 +12,8 @@
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
     "compression": "^1.7.1",
     "polka": "next",
     "sirv": "^0.4.0"
