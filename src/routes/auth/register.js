@@ -1,7 +1,7 @@
-import {User} from '../../model.js'
+import { User } from '../../model.js'
 
 export const post = async (req, res) => {
-    const {email, password, passwordconfirmation} = req.body
+    const { email, password, passwordconfirmation } = req.body
 
     if (password !== passwordconfirmation) {
         res.statusCode = 400
@@ -10,14 +10,24 @@ export const post = async (req, res) => {
     }
 
     try {
-        const user = await User.create({email, password})
-        res.end(JSON.stringify({status: 'success', message: 'User added'}))
+        const user = await User.create({ email, password })
+
+        req.login(user, err => {
+            if (err) {
+                res.statusCode = 400
+                res.end(JSON.stringify({ status: 'error', message: err }))
+                return
+            }
+
+            return res.end(JSON.stringify({ status: 'success', message: 'Logged in' }))
+        })
     } catch (error) {
-        res.statusCode = 400
         let message = 'An error occurred'
-        if (error.name === "SequelizeUniqueConstraintError") {
+        if (error.name === 'SequelizeUniqueConstraintError') {
             message = 'User already exists'
         }
-        res.end(JSON.stringify({status: 'error', message}))
+
+        res.statusCode = 400
+        res.end(JSON.stringify({ status: 'error', message }))
     }
 }
