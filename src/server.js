@@ -9,18 +9,22 @@ import { Strategy as LocalStrategy } from 'passport-local'
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 import { sequelize } from './database.js'
+
 import User from './models/user.js'
 import House from './models/house.js'
 import Review from './models/review.js'
+import Booking from './models/booking.js'
+
+User.sync({ alter: true })
+House.sync({ alter: true })
+Review.sync({ alter: true })
+Booking.sync({ alter: true })
 
 const sessionStore = new SequelizeStore({
     db: sequelize
 })
 
-// sessionStore.sync() //first time, initialize sessions table
-User.sync({ alter: true })
-House.sync({ alter: true })
-Review.sync({ alter: true })
+//sessionStore.sync() //first time, initialize sessions table
 
 const { PORT, NODE_ENV } = process.env
 const dev = NODE_ENV === 'development'

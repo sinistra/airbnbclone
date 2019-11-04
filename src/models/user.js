@@ -3,8 +3,7 @@ import bcrypt from 'bcrypt'
 
 import { sequelize } from '../database.js'
 
-export class User extends Model {
-}
+class User extends Model {}
 
 User.init({
     email: {

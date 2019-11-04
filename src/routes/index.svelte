@@ -2,7 +2,6 @@
     export async function preload({ params, query }) {
         const res = await this.fetch(`houses/list.json`)
         const data = await res.json()
-
         if (res.status === 200) {
             return { houses: data }
         } else {

@@ -8,6 +8,7 @@ export function get(req, res, next) {
 
     House.findByPk(id).then(house => {
         if (house) {
+
             Review.findAndCountAll({
                 where: {
                     'houseId': house.id

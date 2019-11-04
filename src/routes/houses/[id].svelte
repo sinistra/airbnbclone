@@ -1,11 +1,11 @@
 <script context="module">
-    export async function preload({params, query}) {
-        // the `slug` parameter is available because
-        // this file is called [slug].svelte
+    export async function preload({ params, query }) {
+        // the `id` parameter is available because
+        // this file is called [id].svelte
         const res = await this.fetch(`houses/${params.id}.json`)
         const data = await res.json()
         if (res.status === 200) {
-            return {house: data}
+            return { house: data }
         } else {
             this.error(res.status, data.message);
         }
@@ -13,9 +13,11 @@
 </script>
 
 <script>
+    import { stores } from '@sapper/app'
+    import axios from 'axios'
+    const { session } = stores()
+    import { showModal, showLoginModal } from '../../store.js'
     import DateRangePicker from './_DateRangePicker.svelte'
-    import {showModal, showLoginModal} from '../../store.js'
-
     export let house
     let dateChosen = false
     let startDate = null
@@ -25,11 +27,26 @@
         const start = new Date(startDate) //clone
         const end = new Date(endDate) //clone
         let dayCount = 0
-        while (end > start) {
+        while(end > start) {
             dayCount++
             start.setDate(start.getDate() + 1)
         }
         return dayCount
+    }
+    const reserve = async () => {
+        try {
+            const houseId = house.id
+            const response = await axios.post('houses/reserve', { houseId, startDate, endDate })
+            if (response.data.status === 'error') {
+                alert(response.data.message)
+                return
+            }
+            console.log(response.data)
+        } catch (error) {
+            console.log(error)
+            // alert(error.response.data.message)
+            return
+        }
     }
 </script>
 
@@ -39,13 +56,11 @@
         grid-template-columns: 60% 40%;
         grid-gap: 30px;
     }
-
     aside {
         border: 1px solid #ccc;
         padding: 20px;
         margin-top: 20px;
     }
-
 </style>
 
 <svelte:head>
@@ -53,7 +68,7 @@
 </svelte:head>
 
 <header>
-    <img src="{house.picture}" width="100%" style="" alt=""/>
+    <img src="{house.picture}" width="100%" style="" alt="" />
 </header>
 
 <div class="container">
@@ -64,13 +79,13 @@
         <p>{house.guests} guests - {house.bedrooms} bedrooms - {house.beds} beds - {house.baths} baths</p>
 
         {#if house.superhost === true}
-            <p><strong>{house.host} is a Superhost</strong></p>
+            <p><strong>{house.hostName} is a Superhost</strong></p>
             <p>Superhosts are experienced, highly rated hosts who are committed to providing great stays for guests.</p>
         {/if}
 
         <p>{@html house.description}</p>
 
-        <a href="#">Contact host</a>
+        <a href="javascript:;">Contact host</a>
 
         <hr>
 
@@ -107,7 +122,7 @@
         endDate = event.detail.endDate
         numberOfNightsBetweenDates = calcNumberOfNightsBetweenDates(startDate, endDate)
         dateChosen = true
-        }}/>
+        }} />
 
         {#if dateChosen}
             <br>
@@ -115,11 +130,15 @@
             <p>${house.price} x {numberOfNightsBetweenDates}</p>
 
             <p><strong>Total</strong> ${house.price * numberOfNightsBetweenDates}</p>
-            <button class="reserve styled" on:click={() => {
-            showModal.set(true)
-            showLoginModal.set(true)
-            }}>Reserve
-            </button>
+
+            {#if $session.user}
+                <button class="reserve styled" on:click={reserve}>Reserve now</button>
+            {:else}
+                <button class="reserve styled" on:click={() => {
+                showModal.set(true)
+                showLoginModal.set(true)
+                }}>Log in to Reserve</button>
+            {/if}
         {/if}
     </aside>
 </div>
