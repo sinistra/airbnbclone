@@ -64,7 +64,7 @@
         <p>{house.guests} guests - {house.bedrooms} bedrooms - {house.beds} beds - {house.baths} baths</p>
 
         {#if house.superhost === true}
-            <p><strong>{house.hostName} is a Superhost</strong></p>
+            <p><strong>{house.host} is a Superhost</strong></p>
             <p>Superhosts are experienced, highly rated hosts who are committed to providing great stays for guests.</p>
         {/if}
 
@@ -74,25 +74,30 @@
 
         <hr>
 
-        <h3>Amenities</h3>
+        {#if (house.wifi || house.kitchen || house.heating || house.freeParking) }
+            <h3>Amenities</h3>
 
-        {#each house.amenities as amenity}
-            {amenity}
-        {/each}
+            <ul>
+                {#if house.wifi}<li>Wifi</li>{/if}
+                {#if house.kitchen}<li>kitchen</li>{/if}
+                {#if house.heating}<li>heating</li>{/if}
+                {#if house.freeParking}<li>freeParking</li>{/if}
+            </ul>
+        {/if}
 
         {#if house.entirePlace === true}
             <p><strong>Entire place</strong></p>
             <p>You’ll have the space to yourself and will only share it with those you’re traveling with.</p>
         {/if}
 
-        <h3>198 Reviews</h3>
+        {#if house.reviewsCount}
+            <h3>{house.reviewsCount} Reviews</h3>
 
-        {#each house.reviews as review}
-            <img src={review.avatar} alt=""/>
-            <p><strong>{review.user}</strong></p>
-            <p>{review.date}</p>
-            <p>{review.comment}</p>
-        {/each}
+            {#each house.reviews as review}
+                <p>{new Date(review.createdAt).toDateString()}</p>
+                <p>{review.comment}</p>
+            {/each}
+        {/if}
     </main>
 
     <aside>
