@@ -7,7 +7,7 @@
         if (res.status === 200) {
             return { house: data }
         } else {
-            this.error(res.status, data.message);
+            this.error(res.status, data.message)
         }
     }
 </script>
@@ -15,6 +15,7 @@
 <script>
     import { stores } from '@sapper/app'
     import axios from 'axios'
+    import { onMount } from 'svelte'
     const { session } = stores()
     import { showModal, showLoginModal } from '../../store.js'
     import DateRangePicker from './_DateRangePicker.svelte'
@@ -23,6 +24,24 @@
     let startDate = null
     let endDate = null
     let numberOfNightsBetweenDates = 0
+    const getBookedDates = async () => {
+        try {
+            const houseId = house.id
+            const response = await axios.post('/houses/booked', { houseId })
+            if (response.data.status === 'error') {
+                alert(response.data.message)
+                return
+            }
+            return response.data.dates
+        } catch (error) {
+            console.error(error)
+            return
+        }
+    }
+    let bookedDates = null
+    onMount(async () => {
+        bookedDates = await getBookedDates()
+    })
     const calcNumberOfNightsBetweenDates = (startDate, endDate) => {
         const start = new Date(startDate) //clone
         const end = new Date(endDate) //clone
@@ -33,20 +52,43 @@
         }
         return dayCount
     }
-    const reserve = async () => {
+    const canReserve = async () => {
         try {
             const houseId = house.id
-            const response = await axios.post('houses/reserve', { houseId, startDate, endDate })
+            const response = await axios.post('/houses/check', { houseId, startDate, endDate })
             if (response.data.status === 'error') {
                 alert(response.data.message)
                 return
             }
-            console.log(response.data)
+            if (response.data.message === 'busy') return false
+            return true
         } catch (error) {
-            console.log(error)
-            // alert(error.response.data.message)
+            console.error(error)
             return
         }
+    }
+    const reserve = async () => {
+        if (!await canReserve()) {
+            alert('The dates chosen are not valid')
+            return
+        }
+        const sessionResponse = await axios.post('stripe/session', { amount: house.price * numberOfNightsBetweenDates })
+        if (sessionResponse.data.status === 'error') {
+            alert(sessionResponse.data.message)
+            return
+        }
+        const sessionId = sessionResponse.data.sessionId
+        const stripePublicKey = sessionResponse.data.stripePublicKey
+        const houseId = house.id
+        const reserveResponse = await axios.post('houses/reserve', { houseId, startDate, endDate, sessionId })
+        if (reserveResponse.data.status === 'error') {
+            alert(reserveResponse.data.message)
+            return
+        }
+        const stripe = Stripe(stripePublicKey)
+        const { error } = await stripe.redirectToCheckout({
+            sessionId
+        })
     }
 </script>
 
@@ -122,7 +164,7 @@
         endDate = event.detail.endDate
         numberOfNightsBetweenDates = calcNumberOfNightsBetweenDates(startDate, endDate)
         dateChosen = true
-        }} />
+        }} bookedDates={bookedDates} />
 
         {#if dateChosen}
             <br>

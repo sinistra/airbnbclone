@@ -12,8 +12,10 @@ Booking.init({
     },
     houseId: { type: DataTypes.INTEGER, allowNull: false },
     userId: { type: DataTypes.INTEGER, allowNull: false },
-    startDate: { type: DataTypes.DATE, allowNull: false },
-    endDate: { type: DataTypes.DATE, allowNull: false }
+    startDate: { type: DataTypes.DATEONLY, allowNull: false },
+    endDate: { type: DataTypes.DATEONLY, allowNull: false },
+    sessionId: { type: DataTypes.STRING },
+    paid: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false }
 }, {
     sequelize,
     modelName: 'booking',

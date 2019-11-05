@@ -77,7 +77,11 @@ polka()
             },
             store: sessionStore,
         }),
-        bodyParser.json(),
+        bodyParser.json({
+            verify: (req, res, buf) => { //make rawBody available
+                req.rawBody = buf
+            }
+        }),
         passport.initialize(), //In a Connect or Express-based application, passport.initialize() middleware is required to initialize Passport
         passport.session(), //. If your application uses persistent login sessions, passport.session() middleware must also be used.
         compression({ threshold: 0 }),
