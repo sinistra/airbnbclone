@@ -1,8 +1,8 @@
 <script>
     import axios from 'axios'
-    import { stores } from '@sapper/app'
-    import { showModal, showLoginModal, showRegistrationModal } from '../store.js'
-    const { session } = stores()
+    import {stores} from '@sapper/app'
+
+    const {session} = stores()
     export let segment
 </script>
 
@@ -11,41 +11,49 @@
         border-bottom: 1px solid #eee;
         height: 50px;
     }
+
     nav {
         font-weight: 300;
         padding: 0 1em;
     }
+
     img {
         float: left;
     }
+
     ul {
         margin: 0;
         padding: 0;
         float: right;
     }
+
     /* clearfix */
     ul::after {
         content: '';
         display: block;
         clear: both;
     }
+
     li {
         display: block;
         float: left;
     }
+
     .selected {
         position: relative;
         display: inline-block;
     }
+
     .selected::after {
         position: absolute;
         content: '';
         width: calc(100% - 1em);
         height: 2px;
-        background-color: rgb(255,62,0);
+        background-color: rgb(255, 62, 0);
         display: block;
         bottom: -1px;
     }
+
     a {
         text-decoration: none;
         padding: 1em 0.5em;
@@ -54,11 +62,12 @@
 </style>
 
 <div class="nav-container">
-    <img src="/img/logo.png" alt="" />
+    <a class="logo" href="/"><img src="/img/logo.png" alt=""/></a>
     <nav>
         <ul>
             {#if $session.user}
                 <li style="padding: 1em 0.5em;">{$session.user}</li>
+                <li><a href="/bookings">Bookings</a></li>
                 <li><a href='javascript:;' on:click={async () => {
                 await axios.post('auth/logout')
                 session.set({ user: null })
