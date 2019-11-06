@@ -20,10 +20,19 @@ export async function get(req, res, next) {
     const userEmail = req.session.passport.user
     const user = await User.findOne({where: {email: userEmail}})
 
-    Booking.findAndCountAll({
+    const houses = await House.findAll({
+        where: {
+            host: user.id
+        }
+    })
+    const houseIds = houses.map(house => house.dataValues.id)
+
+    const bookingsData = await Booking.findAll({
         where: {
             paid: true,
-            userId: user.id,
+            houseId: {
+                [Op.in]: houseIds
+            },
             endDate: {
                 [Op.gte]: new Date(),
             }
@@ -32,18 +41,19 @@ export async function get(req, res, next) {
             ['startDate', 'ASC']
         ]
     })
-        .then(async result => {
-            const bookings = await Promise.all(result.rows.map(async booking => {
-                const data = {}
-                data.booking = booking.dataValues
-                data.house = (await House.findByPk(data.booking.houseId)).dataValues
-                return data
-            }))
 
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            })
-            res.end(JSON.stringify(bookings))
-        })
+    const bookings = await Promise.all(bookingsData.map(async booking => {
+        return {
+            booking: booking.dataValues,
+            house: houses.filter(house => house.dataValues.id === booking.dataValues.houseId)[0].dataValues
+        }
+    }))
 
+    res.writeHead(200, {
+        'Content-Type': 'application/json'
+    })
+    res.end(JSON.stringify({
+        bookings,
+        houses
+    }))
 }

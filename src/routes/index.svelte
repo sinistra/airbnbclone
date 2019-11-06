@@ -1,9 +1,10 @@
 <script context="module">
-    export async function preload({ params, query }) {
+    export async function preload({params, query}) {
         const res = await this.fetch(`houses/list.json`)
         const data = await res.json()
+
         if (res.status === 200) {
-            return { houses: data }
+            return {houses: data}
         } else {
             this.error(res.status, data.message);
         }
@@ -12,6 +13,7 @@
 
 <script>
     import House from './houses/_House.svelte'
+
     export let houses
 </script>
 
@@ -33,7 +35,7 @@
 
     <div class="houses">
         {#each houses as house}
-            <House {...house} />
+            <House {...house}/>
         {/each}
     </div>
 </div>

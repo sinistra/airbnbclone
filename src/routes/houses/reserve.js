@@ -34,7 +34,7 @@ export const post = async (req, res, next) => {
         return
     }
     const userEmail = req.session.passport.user
-    User.findOne({ where: { email: userEmail }}).then(user => {
+    User.findOne({where: {email: userEmail}}).then(user => {
 
         Booking.create({
             houseId,
@@ -47,7 +47,7 @@ export const post = async (req, res, next) => {
                 res.writeHead(200, {
                     'Content-Type': 'application/json'
                 })
-                res.end(JSON.stringify({ status: 'success', message: 'ok' }))
+                res.end(JSON.stringify({status: 'success', message: 'ok'}))
             })
 
     })

@@ -1,5 +1,5 @@
 import Booking from '../../models/booking.js'
-import { Op } from 'sequelize'
+import {Op} from 'sequelize'
 
 export const post = async (req, res, next) => {
     const houseId = req.body.houseId

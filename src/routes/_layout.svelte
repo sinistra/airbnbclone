@@ -3,7 +3,9 @@
     import Modal from '../components/Modal.svelte'
     import LoginModal from '../components/LoginModal.svelte'
     import RegistrationModal from '../components/RegistrationModal.svelte'
+
     import { showModal, showLoginModal, showRegistrationModal } from '../store.js'
+
     export let segment
 </script>
 
@@ -18,7 +20,7 @@
     }
 </style>
 
-<Nav {segment} />
+<Nav {segment}/>
 
 <main>
     <slot></slot>

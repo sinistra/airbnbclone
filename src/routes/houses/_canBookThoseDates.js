@@ -1,7 +1,7 @@
 import Booking from '../../models/booking.js'
-import { Op } from 'sequelize'
+import {Op} from 'sequelize'
 
-export default async (houseId, startDate, endDate)=> {
+export default async (houseId, startDate, endDate) => {
     const results = await Booking.findAll({
         where: {
             houseId: houseId,
@@ -13,5 +13,5 @@ export default async (houseId, startDate, endDate)=> {
             }
         }
     })
-    return ! (results.length > 0)
+    return !(results.length > 0)
 }

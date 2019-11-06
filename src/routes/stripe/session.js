@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+
 export const post = async (req, res, next) => {
     const amount = req.body.amount
 
@@ -14,7 +15,7 @@ export const post = async (req, res, next) => {
             currency: 'usd',
             quantity: 1,
         }],
-        success_url: process.env.BASE_URL +  '/bookings',
+        success_url: process.env.BASE_URL + '/bookings',
         cancel_url: process.env.BASE_URL + '/bookings',
     })
 

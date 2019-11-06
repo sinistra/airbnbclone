@@ -1,9 +1,11 @@
 import dotenv from 'dotenv'
+
 import Booking from '../../models/booking.js'
 
 dotenv.config()
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
 
 export const post = async (req, res, next) => {
@@ -18,7 +20,7 @@ export const post = async (req, res, next) => {
             'Content-Type': 'application/json'
         })
         console.error(err.message)
-        res.end(JSON.stringify({ status: 'success', message: `Webhook Error: ${err.message}` }))
+        res.end(JSON.stringify({status: 'success', message: `Webhook Error: ${err.message}`}))
         return
     }
 
@@ -27,8 +29,8 @@ export const post = async (req, res, next) => {
 
         try {
             Booking.update(
-                { paid: true },
-                { where: { sessionId } }
+                {paid: true},
+                {where: {sessionId}}
             )
         } catch (err) {
             console.error(err)
@@ -38,5 +40,6 @@ export const post = async (req, res, next) => {
     res.writeHead(200, {
         'Content-Type': 'application/json'
     })
-    res.end(JSON.stringify({ received: true }))
+    res.end(JSON.stringify({received: true}))
 }
+

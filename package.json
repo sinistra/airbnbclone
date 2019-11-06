@@ -1,6 +1,6 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "airbnbclone",
+  "description": "airbnbclone",
   "version": "0.0.1",
   "scripts": {
     "dev": "PORT=3001 sapper dev",
@@ -18,11 +18,15 @@
     "compression": "^1.7.1",
     "connect-session-sequelize": "^6.0.0",
     "dotenv": "^8.2.0",
+    "express-fileupload": "^1.1.6-alpha.6",
     "express-session": "^1.17.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "pell": "^1.0.6",
     "pg": "^7.12.1",
     "polka": "next",
+    "randomstring": "^1.1.5",
+    "sanitize-html": "^1.20.1",
     "sequelize": "^5.21.2",
     "sirv": "^0.4.0",
     "stripe": "^7.11.0"

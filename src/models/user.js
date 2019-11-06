@@ -1,9 +1,10 @@
-import { Model, DataTypes } from 'sequelize'
+import {DataTypes, Model} from 'sequelize'
 import bcrypt from 'bcrypt'
 
-import { sequelize } from '../database.js'
+import {sequelize} from '../database.js'
 
-class User extends Model {}
+class User extends Model {
+}
 
 User.init({
     email: {
@@ -20,15 +21,15 @@ User.init({
     timestamps: false,
     hooks: {
         beforeCreate: async user => {
-            const saltRounds = 10
-            const salt = await bcrypt.genSalt(saltRounds)
+            const saltRounds = 10;
+            const salt = await bcrypt.genSalt(saltRounds);
             user.password = await bcrypt.hash(user.password, salt)
         }
     }
-})
+});
 
-User.prototype.isPasswordValid = async function(password) {
+User.prototype.isPasswordValid = async function (password) {
     return await bcrypt.compare(password, this.password)
-}
+};
 
 export default User

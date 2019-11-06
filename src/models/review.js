@@ -1,8 +1,8 @@
-import { Model, DataTypes } from 'sequelize'
+import {DataTypes, Model} from 'sequelize'
+import {sequelize} from '../database.js'
 
-import { sequelize } from '../database.js'
-
-class Review extends Model {}
+class Review extends Model {
+}
 
 Review.init({
     id: {
@@ -10,9 +10,9 @@ Review.init({
         autoIncrement: true,
         primaryKey: true
     },
-    houseId: { type: DataTypes.INTEGER, allowNull: false },
-    userId: { type: DataTypes.INTEGER, allowNull: false },
-    comment: { type: DataTypes.TEXT, allowNull: false }
+    houseId: {type: DataTypes.INTEGER, allowNull: false},
+    userId: {type: DataTypes.INTEGER, allowNull: false},
+    comment: {type: DataTypes.TEXT, allowNull: false}
 }, {
     sequelize,
     modelName: 'review',

@@ -4,7 +4,7 @@ import Review from '../../models/review.js'
 export function get(req, res, next) {
     // the `id` parameter is available because
     // this file is called [id].json.js
-    const { id } = req.params
+    const {id} = req.params
 
     House.findByPk(id).then(house => {
         if (house) {

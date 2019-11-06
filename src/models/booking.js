@@ -1,8 +1,9 @@
-import { Model, DataTypes } from 'sequelize'
+import {DataTypes, Model} from 'sequelize'
 
-import { sequelize } from '../database.js'
+import {sequelize} from '../database.js'
 
-class Booking extends Model {}
+class Booking extends Model {
+}
 
 Booking.init({
     id: {
@@ -10,12 +11,12 @@ Booking.init({
         autoIncrement: true,
         primaryKey: true
     },
-    houseId: { type: DataTypes.INTEGER, allowNull: false },
-    userId: { type: DataTypes.INTEGER, allowNull: false },
-    startDate: { type: DataTypes.DATEONLY, allowNull: false },
-    endDate: { type: DataTypes.DATEONLY, allowNull: false },
-    sessionId: { type: DataTypes.STRING },
-    paid: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false }
+    houseId: {type: DataTypes.INTEGER, allowNull: false},
+    userId: {type: DataTypes.INTEGER, allowNull: false},
+    startDate: {type: DataTypes.DATEONLY, allowNull: false},
+    endDate: {type: DataTypes.DATEONLY, allowNull: false},
+    sessionId: {type: DataTypes.STRING},
+    paid: {type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false}
 }, {
     sequelize,
     modelName: 'booking',

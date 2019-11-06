@@ -11,10 +11,9 @@
 
 <div>
     <a href="/houses/{id}">
-        <img src="{picture}" width="100%" style="" alt="" />
+        <img src="{picture}" width="100%" style="" alt=""/>
         <p>{type} - {town}</p>
         <p>{title}</p>
         <p>{rating} ({reviewsCount}) {superhost ? '- Superhost' : ''}</p>
     </a>
 </div>
-
