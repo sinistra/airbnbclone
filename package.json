@@ -20,7 +20,7 @@
     "dotenv": "^8.2.0",
     "express-fileupload": "^1.1.6-alpha.6",
     "express-session": "^1.17.0",
-    "passport": "^0.4.0",
+    "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pell": "^1.0.6",
     "pg": "^7.12.1",
