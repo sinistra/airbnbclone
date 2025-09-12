@@ -23,7 +23,7 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pell": "^1.0.6",
-    "pg": "^7.12.1",
+    "pg": "^8.16.3",
     "polka": "next",
     "randomstring": "^1.1.5",
     "sanitize-html": "^2.11.0",
